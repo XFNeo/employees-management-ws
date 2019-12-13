@@ -20,6 +20,7 @@ Container with application automated builds on [Docker hub](https://hub.docker.c
 
 ## Deploy application:
 ### Linux:
+Prepare all necessary environment variables and run commands:
 ```sh
 chmod +x mvnw
 ./mvnw package
@@ -27,6 +28,7 @@ cp target/employees-management*.jar ./app.jar
 java -jar app.jar
 ```
 ### Windows:
+Prepare all necessary environment variables and run commands:
 ```cmd
 mvnw.cmd package
 copy /B target\employees-management*.jar app.jar
