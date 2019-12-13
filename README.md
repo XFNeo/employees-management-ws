@@ -2,7 +2,7 @@
 Simple Spring Boot REST web service for employees management.  
 This service depends on [departments-managment service](https://github.com/XFNeo/departments-management-ws).  
 Swagger user interface available on "/swagger-ui.html"  
-The application automated builds on [Docker hub](https://hub.docker.com/r/xfneo/employees-management-ws).
+Container with application automated builds on [Docker hub](https://hub.docker.com/r/xfneo/employees-management-ws).
 
 ## Prerequisites
  - PostgreSQL 11 with database "employees_service"
