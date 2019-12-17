@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,12 +43,13 @@ public class EmployeesController {
         return employeeService.find(id);
     }
 
-    @ApiOperation(value = "Create employee", response = Employee.class)
+    @ApiOperation(value = "Create employee", code = 201, response = Employee.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully created employee"),
+            @ApiResponse(code = 201, message = "Successfully created employee"),
             @ApiResponse(code = 400, message = "Department not found")
     })
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<?> createEmployee(@RequestBody Employee employee){
         return employeeService.create(employee);
     }
@@ -71,17 +73,17 @@ public class EmployeesController {
             @ApiResponse(code = 200, message = "Successfully transferred employees"),
             @ApiResponse(code = 400, message = "New department not found")
     })
-    @PutMapping(value = "/replaceDepartment", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/replaceDepartment", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> replaceDepartmentId(@RequestBody DepartmentsToReplaceDto departments){
         return employeeService.replaceDepartmentId(departments);
     }
 
-    @ApiOperation(value = "Delete employee")
+    @ApiOperation(value = "Delete employee", code = 204)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully deleted employee"),
-            @ApiResponse(code = 404, message = "Employee not found")
+            @ApiResponse(code = 204, message = "Successfully deleted employee or employee does not exist"),
     })
     @DeleteMapping(value = "{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public ResponseEntity<?> deleteEmployee(@PathVariable("id") Long id){
         return employeeService.delete(id);
     }

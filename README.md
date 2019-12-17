@@ -15,7 +15,7 @@ Container with application automated builds on [Docker hub](https://hub.docker.c
 - DB_PASSWORD - password for database. Default: postgres
 - DB_HOST - database host. Default: localhost
 - DB_PORT - database port. Default: 5432
-- APP_PORT - application port for api. Default: 8080
+- EMPL_APP_PORT - application port for api. Default: 8080
 - DEPARTMENTS_SERVICE_URL - URL and port to [departments-managment service](https://github.com/XFNeo/departments-management-ws). Default:  http://localhost:8080
 
 ## Deploy application:

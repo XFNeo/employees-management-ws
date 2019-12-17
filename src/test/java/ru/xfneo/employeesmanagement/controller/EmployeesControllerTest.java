@@ -41,7 +41,7 @@ public class EmployeesControllerTest {
     private static final String GET_ALL_EMPLOYEES_URI = "/api/employees";
     private static final String POST_EMPLOYEE_URI = "/api/employees";
     private static final String GET_PUT_DELETE_EMPLOYEE_URI = "/api/employees/1";
-    private static final String PUT_REPLACE_DEPARTMENT_URI = "/api/employees/replaceDepartment";
+    private static final String POST_REPLACE_DEPARTMENT_URI = "/api/employees/replaceDepartment";
     private static final String CREATE_EMPLOYEE1_JSON =
             "{\"departmentId\":1,\"firstName\":\"firstName1\",\"lastName\":\"lastName1\",\"title\":\"title1\"}";
     private static final String UPDATE_EMPLOYEE1_JSON =
@@ -136,7 +136,7 @@ public class EmployeesControllerTest {
     @Test
     @SneakyThrows
     public void testReplaceDepartmentId() {
-        mockMvc.perform(put(PUT_REPLACE_DEPARTMENT_URI)
+        mockMvc.perform(post(POST_REPLACE_DEPARTMENT_URI)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(REPLACE_DEPARTMENT_JSON))
                 .andDo(print())

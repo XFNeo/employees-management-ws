@@ -63,11 +63,11 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testCreate_OkResponse() {
+    public void testCreate_CreatedResponse() {
         when(mockResponse.status()).thenReturn(200);
         when(departmentClient.checkDepartment(employee1.getDepartmentId())).thenReturn(mockResponse);
         when(employeeRepository.save(employee1)).thenReturn(employee1);
-        ResponseEntity<?> expectedResponse = ResponseEntity.ok(employee1);
+        ResponseEntity<?> expectedResponse = ResponseEntity.status(201).body(employee1);
         ResponseEntity<?> actualResponse = sut.create(employee1);
         assertEquals(expectedResponse, actualResponse);
         verify(employeeRepository).save(employee1);
@@ -128,17 +128,17 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testDelete_OkResponse() {
+    public void testDelete_NoContentResponse() {
         when(employeeRepository.findById(employee1.getId())).thenReturn(Optional.of(employee1));
-        ResponseEntity<?> expectedResponse = ResponseEntity.ok().build();
+        ResponseEntity<?> expectedResponse = ResponseEntity.status(204).build();
         ResponseEntity<?> actualResponse = sut.delete(employee1.getId());
         assertEquals(expectedResponse, actualResponse);
         verify(employeeRepository).deleteById(employee1.getId());
     }
 
     @Test
-    public void testDelete_NotFoundResponse() {
-        ResponseEntity<?> expectedResponse = ResponseEntity.status(404).body("Employee Not Found");
+    public void testDelete_NullValue_NoContentResponse() {
+        ResponseEntity<?> expectedResponse = ResponseEntity.status(204).build();
         ResponseEntity<?> actualResponse = sut.delete(null);
         assertEquals(expectedResponse, actualResponse);
         verify(employeeRepository, times(0)).delete(any(Employee.class));

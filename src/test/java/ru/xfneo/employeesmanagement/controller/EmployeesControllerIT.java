@@ -96,7 +96,7 @@ public class EmployeesControllerIT {
         when(mockResponse.status()).thenReturn(200);
         when(departmentClient.checkDepartment(expectedEmployee.getDepartmentId())).thenReturn(mockResponse);
         ResponseEntity<Employee> response = restTemplate.postForEntity(EMPLOYEES_URI, expectedEmployee, Employee.class);
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
         assertThat(response.getBody().getId(), notNullValue());
         assertThat(response.getBody().getFirstName(), is(expectedEmployee.getFirstName()));
         Employee actualEmployee = restTemplate.getForObject(EMPLOYEES_ID_URI, Employee.class, expectedEmployee.getId());
@@ -128,7 +128,7 @@ public class EmployeesControllerIT {
         when(mockResponse.status()).thenReturn(200);
         when(departmentClient.checkDepartment(employee4.getDepartmentId())).thenReturn(mockResponse);
         ResponseEntity<Object> response =
-                restTemplate.exchange(EMPLOYEES_REPLACE_DEPARTMENT_URI, HttpMethod.PUT, entity, Object.class);
+                restTemplate.exchange(EMPLOYEES_REPLACE_DEPARTMENT_URI, HttpMethod.POST, entity, Object.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         ResponseEntity<List<Employee>> getResponse = restTemplate.exchange(EMPLOYEES_URI, HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Employee>>() {

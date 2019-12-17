@@ -47,7 +47,7 @@ public class EmployeeService {
             return ResponseEntity
                     .status(400)
                     .body(String.format("Department with id %d not found!", employee.getDepartmentId()));
-        return ResponseEntity.ok(employeeRepository.save(employee));
+        return ResponseEntity.status(201).body(employeeRepository.save(employee));
     }
 
     public ResponseEntity<?> update(Long originalEmployeeId, Employee editedEmployee) {
@@ -75,21 +75,18 @@ public class EmployeeService {
                     .status(400)
                     .body(String.format("Department with id %d not found!", departments.getNewDepartmentID()));
         }
-        AtomicLong affectedEmployeeCount = new AtomicLong(0);
         employeesWithOldDepartmentId.forEach(employee -> {
             employee.setDepartmentId(departments.getNewDepartmentID());
             employeeRepository.save(employee);
-            affectedEmployeeCount.incrementAndGet();
         });
-        return ResponseEntity.ok(affectedEmployeeCount.get() + " employee(s) are affected");
+        return ResponseEntity.ok(employeesWithOldDepartmentId.size() + " employee(s) are affected");
     }
 
     public ResponseEntity<?> delete(Long id) {
         Optional<Employee> employeeOptional = employeeRepository.findById(id);
-        if (!employeeOptional.isPresent()) {
-            return ResponseEntity.status(404).body("Employee Not Found");
+        if (employeeOptional.isPresent()) {
+            employeeRepository.deleteById(id);
         }
-        employeeRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(204).build();
     }
 }
