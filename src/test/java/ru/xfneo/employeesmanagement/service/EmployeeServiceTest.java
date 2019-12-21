@@ -37,7 +37,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testFindAll() {
+    public void findAll_GetAllEmployees_NotEmptyListOfEmployees() {
         List<Employee> expectedList = Arrays.asList(employee1, employee2);
         when(employeeRepository.findAll()).thenReturn(expectedList);
         List<Employee> actualList = sut.findAll();
@@ -47,7 +47,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testFind_OkResponse() {
+    public void find_GetEmployee_OkResponseWithEmployee() {
         when(employeeRepository.findById(employee1.getId())).thenReturn(Optional.of(employee1));
         ResponseEntity<?> expectedResponse = ResponseEntity.ok(employee1);
         ResponseEntity<?> actualResponse = sut.find(employee1.getId());
@@ -56,14 +56,14 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testFind_NotFoundResponse() {
+    public void find_GetNullEmployee_NotFoundResponse() {
         ResponseEntity<?> expectedNotFoundResponse = ResponseEntity.status(404).body("Employee Not Found");
         ResponseEntity<?> actualFailResponse = sut.find(null);
         assertEquals(expectedNotFoundResponse, actualFailResponse);
     }
 
     @Test
-    public void testCreate_CreatedResponse() {
+    public void create_CreateEmployee_CreatedResponseWithEmployee() {
         when(mockResponse.status()).thenReturn(200);
         when(departmentClient.checkDepartment(employee1.getDepartmentId())).thenReturn(mockResponse);
         when(employeeRepository.save(employee1)).thenReturn(employee1);
@@ -74,7 +74,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testCreate_NotFoundResponse() {
+    public void create_CreateEmployeeWithWrongDepartment_NotFoundResponse() {
         when(mockResponse.status()).thenReturn(400);
         when(departmentClient.checkDepartment(employee1.getDepartmentId())).thenReturn(mockResponse);
         ResponseEntity<?> expectedResponse = ResponseEntity.status(400).body("Department with id " + employee1.getDepartmentId() + " not found!");
@@ -84,7 +84,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testUpdate_OkResponse() {
+    public void update_UpdateEmployee_OkResponseWithUpdatedEmployee() {
         when(mockResponse.status()).thenReturn(200);
         when(departmentClient.checkDepartment(employee2.getDepartmentId())).thenReturn(mockResponse);
         when(employeeRepository.save(employee1)).thenReturn(employee1);
@@ -102,7 +102,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testUpdate_DepartmentNotFoundResponse() {
+    public void update_UpdateEmployeeWithWrongDepartment_NotFoundResponse() {
         when(mockResponse.status()).thenReturn(400);
         when(departmentClient.checkDepartment(employee2.getDepartmentId())).thenReturn(mockResponse);
         when(employeeRepository.findById(employee1.getId())).thenReturn(Optional.of(employee1));
@@ -118,7 +118,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testUpdate_EmployeeNotFoundResponse() {
+    public void update_UpdateNonexistentEmployee_NotFoundResponse() {
         when(employeeRepository.findById(employee1.getId())).thenReturn(Optional.empty());
         ResponseEntity<?> expectedResponse = ResponseEntity.status(404).body("Employee Not Found");
         ResponseEntity<?> actualResponse = sut.update(employee1.getId(), employee2);
@@ -128,7 +128,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testDelete_NoContentResponse() {
+    public void delete_DeleteEmployee_NoContentResponse() {
         when(employeeRepository.findById(employee1.getId())).thenReturn(Optional.of(employee1));
         ResponseEntity<?> expectedResponse = ResponseEntity.status(204).build();
         ResponseEntity<?> actualResponse = sut.delete(employee1.getId());
@@ -137,7 +137,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testDelete_NullValue_NoContentResponse() {
+    public void delete_DeleteNullEmployee_NoContentResponse() {
         ResponseEntity<?> expectedResponse = ResponseEntity.status(204).build();
         ResponseEntity<?> actualResponse = sut.delete(null);
         assertEquals(expectedResponse, actualResponse);
@@ -145,7 +145,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testReplaceDepartmentId_OkResponse() {
+    public void replaceDepartmentId_ReplaceDepartments_OkResponse() {
         DepartmentsToReplaceDto departments = new DepartmentsToReplaceDto();
         departments.setOldDepartmentID(employee1.getDepartmentId());
         departments.setNewDepartmentID(employee2.getDepartmentId());
@@ -163,7 +163,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testReplaceDepartmentId_NotFoundResponse() {
+    public void replaceDepartmentId_ReplaceDepartmentOnNonexistentDepartment_NotFoundResponse() {
         DepartmentsToReplaceDto departments = new DepartmentsToReplaceDto();
         departments.setOldDepartmentID(employee1.getDepartmentId());
         departments.setNewDepartmentID(employee2.getDepartmentId());

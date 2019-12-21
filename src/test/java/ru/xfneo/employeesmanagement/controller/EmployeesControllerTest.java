@@ -66,7 +66,7 @@ public class EmployeesControllerTest {
 
     @Test
     @SneakyThrows
-    public void testGetListOfEmployees() {
+    public void getListOfEmployees_GetAllEmployees_OkResponseWithTwoEmployees() {
         mockMvc.perform(get(GET_ALL_EMPLOYEES_URI))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -86,7 +86,7 @@ public class EmployeesControllerTest {
 
     @Test
     @SneakyThrows
-    public void testGetEmployee() {
+    public void getEmployee_GetEmployee_OkResponseWithEmployee() {
         mockMvc.perform(get(GET_PUT_DELETE_EMPLOYEE_URI))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -101,7 +101,7 @@ public class EmployeesControllerTest {
 
     @Test
     @SneakyThrows
-    public void testCreateEmployee() {
+    public void createEmployee_CreateEmployee_OkResponseWithCreatedEmployee() {
         mockMvc.perform(post(POST_EMPLOYEE_URI)
                     .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                     .content(CREATE_EMPLOYEE1_JSON))
@@ -118,7 +118,7 @@ public class EmployeesControllerTest {
 
     @Test
     @SneakyThrows
-    public void testUpdateEmployee() {
+    public void updateEmployee_UpdateEmployee_OkResponseWithUpdatedEmployee() {
         mockMvc.perform(put(GET_PUT_DELETE_EMPLOYEE_URI)
                     .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                     .content(UPDATE_EMPLOYEE1_JSON))
@@ -135,7 +135,7 @@ public class EmployeesControllerTest {
 
     @Test
     @SneakyThrows
-    public void testReplaceDepartmentId() {
+    public void replaceDepartmentId_ReplaceDepartment_OkResponse() {
         mockMvc.perform(post(POST_REPLACE_DEPARTMENT_URI)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(REPLACE_DEPARTMENT_JSON))
@@ -146,7 +146,7 @@ public class EmployeesControllerTest {
 
     @Test
     @SneakyThrows
-    public void testDeleteEmployee() {
+    public void deleteEmployee_DeleteEmployee_OkResponse() {
         mockMvc.perform(delete(GET_PUT_DELETE_EMPLOYEE_URI))
                 .andDo(print())
                 .andExpect(status().isOk());

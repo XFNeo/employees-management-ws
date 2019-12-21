@@ -74,7 +74,7 @@ public class EmployeesControllerIT {
     }
 
     @Test
-    public void testGetListOfEmployees() {
+    public void getListOfEmployeesAndNotEmptyListOfEmployees() {
         ResponseEntity<List<Employee>> response = restTemplate.exchange(EMPLOYEES_URI, HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Employee>>() {
                 });
@@ -84,14 +84,14 @@ public class EmployeesControllerIT {
     }
 
     @Test
-    public void testGetEmployee() {
+    public void getEmployeeAndNotNullEmployee() {
         long id = employee2.getId();
         Employee actualEmployee = restTemplate.getForObject(EMPLOYEES_ID_URI, Employee.class, id);
         assertEquals(employee2, actualEmployee);
     }
 
     @Test
-    public void testCreateEmployee() {
+    public void createEmployeeAndSavedEmployeeInRepository() {
         Employee expectedEmployee = new Employee(5, 2, "Maria", "Grenkova", "Senior accounting specialist");
         when(mockResponse.status()).thenReturn(200);
         when(departmentClient.checkDepartment(expectedEmployee.getDepartmentId())).thenReturn(mockResponse);
@@ -104,7 +104,7 @@ public class EmployeesControllerIT {
     }
 
     @Test
-    public void testUpdateEmployee() {
+    public void updateEmployeeAndUpdatedEmployeeInRepository() {
         Employee expectedEmployee = new Employee(999, 2, "Anna", "Demeleva", "Senior QA Engineer");
         HttpEntity<Employee> entity = new HttpEntity<>(expectedEmployee);
         when(mockResponse.status()).thenReturn(200);
@@ -120,7 +120,7 @@ public class EmployeesControllerIT {
     }
 
     @Test
-    public void testReplaceDepartmentId() {
+    public void replaceDepartmentIdAndUpdatedEmployeesWithNewDepartment() {
         Map<String, Long> departments = new HashMap<>();
         departments.put("oldDepartmentID", employee1.getDepartmentId());
         departments.put("newDepartmentID", employee4.getDepartmentId());
@@ -141,7 +141,7 @@ public class EmployeesControllerIT {
     }
 
     @Test
-    public void testDeleteEmployee() {
+    public void deleteEmployeeAndDeletedEmployeeFromRepository() {
         long id = employee4.getId();
         restTemplate.delete(EMPLOYEES_ID_URI, id);
         ResponseEntity<Void> response =
